@@ -338,4 +338,7 @@ params:
     example: https://us-west1-my-project-id.cloudfunctions.net/myTransformFunction
     type: string
     required: false
-    
+
+events:
+  - type: firebase.extensions.firestore-bigquery-export.v1.onStart
+    description: Occurs when the extension execution starts and includes the Firestore document change event data.

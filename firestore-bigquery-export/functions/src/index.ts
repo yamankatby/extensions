@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import * as admin from "firebase-admin";
+import { getEventarc } from "firebase-admin/eventarc";
 import config from "./config";
 import * as functions from "firebase-functions";
 import {
@@ -41,12 +43,31 @@ const eventTracker: FirestoreEventHistoryTracker = new FirestoreBigQueryEventHis
   }
 );
 
+// Initialize the Firebase Admin SDK
+admin.initializeApp();
+
+const eventChannel =
+  process.env.EVENTARC_CHANNEL &&
+  getEventarc().channel(process.env.EVENTARC_CHANNEL, {
+    allowedEventTypes: process.env.EXT_SELECTED_EVENTS,
+  });
+
 logs.init();
 
 exports.fsexportbigquery = functions.firestore
   .document(config.collectionPath)
   .onWrite(async (change, context) => {
     logs.start();
+    eventChannel &&
+      (await eventChannel.publish({
+        type: "firebase.extensions.firestore-bigquery-export.v1.onStart",
+        subject: context.eventId,
+        data: {
+          before: { ...change.before, data: change.before.data() },
+          after: { ...change.after, data: change.after.data() },
+        },
+      }));
+
     try {
       const changeType = getChangeType(change);
       const documentId = getDocumentId(change);
