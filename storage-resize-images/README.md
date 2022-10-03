@@ -67,8 +67,8 @@ To install an extension, your project must be on the [Blaze (pay as you go) plan
 * Cloud Storage path for resized images: A relative path in which to store resized images. For example, if you specify a path here of `thumbs` and you upload an image to `/images/original.jpg`, then the resized image is stored at `/images/thumbs/original_200x200.jpg`. If you prefer to store resized images at the root of your bucket, leave this field empty.
 
 
-* Paths that contain images you want to resize: Restrict storage-resize-images to only resize images in specific locations in your Storage bucket by  supplying a comma-separated list of absolute paths. For example, to only resize the images  stored in the `/users/pictures` and `/restaurants/menuItems` directories, specify the paths `/users/pictures,/restaurants/menuItems`.
-You may also use wildcard notation for directories in the path. For example, `/users/*/pictures`  would match `/users/profile/pictures/image.png` as well as  `/users/profile/pictures/any/sub/directory/image.png`. 
+* Paths that contain images you want to resize: Restrict storage-resize-images to only resize images in specific locations in your Storage bucket by  supplying a comma-separated list of absolute paths. For example, to only resize the images  stored in the `/foo/alpha` and its subdirectories and `/bar/beta` and its subdirectories, specify the paths `/foo/alpha,/bar/beta`.
+You may also use wildcard notation for directories in the path. For example, `/users/*/pictures`  would match `/users/foo/pictures/image.png` as well as `/users/b/a/r/pictures/image.png`. 
 If you prefer to resize every image uploaded to your Storage bucket,  leave this field empty.
 
 
